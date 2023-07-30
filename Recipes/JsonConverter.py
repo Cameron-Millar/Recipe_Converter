@@ -3,6 +3,7 @@
 import json
 
 #gets recipe info from user
+print("JSON converter: enter requested information for your recipe, pressing ENTER will submit whatever you have.")
 RecipeName = input('enter name of recipe (just letters please, no special characters):\n')
 RecipeTime = input('enter time to prepare recipe:\n')
 RecipeConsiderations = input('enter considerations for recipe (chill time, # fed, etc.):\n')
