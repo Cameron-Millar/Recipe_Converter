@@ -1,0 +1,24 @@
+{
+ "Name": "",
+ "Prep Time": "",
+ "Considerations": "",
+ "Ingredients": [
+ {
+  "Name": "",
+  "Amount": "",
+  "Details": ""
+ }
+ ]
+ "Instructions": ["","",""],
+ "Notes": "",
+ "Tips": ["",""],
+ "Nutrition": [
+ {
+  "Serving": "",
+  "Calories": "",
+  "Carbohydrates": "",
+  "Protein": "",
+  "Fat": ""
+ }
+ ]
+}
