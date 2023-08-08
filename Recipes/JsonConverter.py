@@ -11,15 +11,19 @@ RecipeConsiderations = input('enter considerations for recipe (chill time, # fed
 #gets recipe ingredients from user one at a time. broken by entering 'end'
 print('Recipe Ingredients, enter "END" to end.\n')
 RecipeIngredients = []
-while True:
+nextIngredient = True
+while nextIngredient== True:
     ingredientName = input('enter name of ingredient: \n')
-    if (ingredientName.upper == 'END'):
+    if (ingredientName.upper() == 'END'):
+        nextIngredient=False
         break        
     ingredientAmount = input('enter amount (and units) of ingredient:\n')
-    if (ingredientAmount.upper == 'END'):
+    if (ingredientAmount.upper() == 'END'):
+        nextIngredient=False
         break  
     ingredientDetails = input('any extra details about the ingredient, just press enter if there are none:\n')
-    if (ingredientDetails.upper == 'END'):
+    if (ingredientDetails.upper() == 'END'):
+        nextIngredient=False
         break  
     ingredient = {'Name':ingredientName,'Amount':ingredientName,'Details':ingredientDetails,} 
     RecipeIngredients.append(ingredient)
@@ -38,9 +42,9 @@ while True:
 
 #this block formats all of the previous info into a style that can be converted into a json file
 Recipe = "{\n"
-Recipe += (' "Name":"'+RecipeName +'",\n')
-Recipe += (' "Time":"'+RecipeTime +'",\n')
-Recipe += (' "Considerations":"'+RecipeConsiderations +'",\n')
+Recipe += (' "Name":"{RecipeName}",\n')
+Recipe += (' "Time":"{RecipeTime}",\n')
+Recipe += (' "Considerations":"{RecipeConsiderations}",\n')
 Recipe += ' "Ingredients": [\n'
 for i in range(len(RecipeIngredients)):
     Recipe = " {\n"
@@ -49,12 +53,12 @@ for i in range(len(RecipeIngredients)):
     Recipe += ('  "Details":"'+RecipeIngredients[i]["Details"]+'",\n')
     Recipe+=' },\n'
 Recipe+=' ],\n'
-Recipe += (' "Instructions":"'+RecipeInstructions +'",\n')
-Recipe += (' "Notes":"'+RecipeNotes +'",\n')
+Recipe += (' "Instructions":"{RecipeInstructions}",\n')
+Recipe += (' "Notes":"{RecipeNotes}",\n')
 Recipe += (' "Nutrition": [\n')
 Recipe = " {\n"
 for i in range(len(RecipeNutrition)):
-    Recipe += ('  "Ingredient'+i+'":"'+RecipeNutrition[i]+'",\n')
+    Recipe += ('  "Nutrient{i}":"{RecipeNutrition[i]}",\n')
 Recipe+=' },\n'
 Recipe+=' ],\n'
 Recipe+='},\n'
