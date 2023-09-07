@@ -7,21 +7,60 @@ window.geometry('1920x1080')
 left = tkinter.Frame(window, width=640, height=1080)
 mid = tkinter.Frame(window, width=640, height=1080)
 right = tkinter.Frame(window, width=640, height=1080)
-left.grid(column=1,row=0,ipadx=200)
+left.grid(column=1,row=0,ipadx=100)
 mid.grid(column=2,row=0)
-right.grid(column=3,row=0,ipadx=200)
+right.grid(column=3,row=0,ipadx=100)
 
 
 
 allIngredients = []
 ingredientY = 3
 def printInput():
+    #cleans up list of ingredients and splits each ingredient into its separate parts
     global allIngredients
-    output=''
-    for i in allIngredients:
-        output += i.get(1.0, "end-1c")
-        output += '\n'
-    print(output)
+    cleanIngredients = []
+    for i in range(len(allIngredients)):
+        ingredientParts = allIngredients[i].get(1.0, "end-1c").split(", ")
+        ing = []
+        ing.append(['"Name":"'+ingredientParts[0]+'",\n','"Time":"'+ingredientParts[1]+'",\n','"Considerations":"'+ingredientParts[2]+'",\n'])
+    #gets the info from all the different text boxes
+    RecipeName = nameInput.get(1.0, "end-1c")
+    RecipeConsiderations = considerationInput.get(1.0, "end-1c")
+    RecipeInstructions = instructionsInput.get(1.0, "end-1c")
+    RecipeNotes = notesInput.get(1.0, "end-1c")
+    RecipeNutrition = nutritionInput.get(1.0, "end-1c").split(", ")
+
+    Recipe = "{\n"
+    Recipe += (' "Name":"{RecipeName}",\n')
+    Recipe += (' "Time":"{RecipeTime}",\n')
+    Recipe += (' "Considerations":"{RecipeConsiderations}",\n')
+    Recipe += ' "Tags": [\n'
+    for i in range(len(allTags)):
+        Recipe += '"'+allTags[i].cget("text")+'":'
+        if (allTags[i].get()==1):
+            Recipe+= '"True"\n'
+        else:
+            Recipe+= '"False"\n'
+    Recipe += ' ],\n'
+    Recipe += ' "Ingredients": [\n'
+    for i in range(len(cleanIngredients)):
+        Recipe = " {\n"
+        Recipe += (cleanIngredients[i][0])
+        Recipe += (cleanIngredients[i][1])
+        Recipe += (cleanIngredients[i][2])
+        Recipe+=' },\n'
+    Recipe+= ' ],\n'
+    Recipe += (' "Instructions":"{RecipeInstructions}",\n')
+    Recipe += (' "Notes":"{RecipeNotes}",\n')
+    Recipe += (' "Nutrition": [\n')
+    Recipe = " {\n"
+    for i in range(len(RecipeNutrition)):
+        Recipe += ('  "Nutrient{i}":"{RecipeNutrition[i]}",\n')
+    Recipe+=' },\n'
+    Recipe+=' ],\n'
+    Recipe+='},\n'
+    
+    print(Recipe)
 
 
 
@@ -37,19 +76,18 @@ def addIngredient():
     allIngredients.append(ingredient)
 
 warningLabel = tkinter.Label(mid, text="Warning: if you line break, just delete it. It will cause problems later", )
-warningLabel.pack(side="top", ipady=200)
+warningLabel.pack(side="top", ipady=100)
 
 #tags for recipes
-t1 = tkinter.Checkbutton(mid, text='tag1', onvalue=1, offvalue=0)
-t1.pack(pady=10)
-t2 = tkinter.Checkbutton(mid, text='tag2', onvalue=1, offvalue=0)
-t2.pack(pady=10)
-t3 = tkinter.Checkbutton(mid, text='tag3', onvalue=1, offvalue=0)
-t3.pack(pady=10)
-t4 = tkinter.Checkbutton(mid, text='tag4', onvalue=1, offvalue=0)
-t4.pack(pady=10)
-t5 = tkinter.Checkbutton(mid, text='tag5', onvalue=1, offvalue=0)
-t5.pack(pady=10)
+tagNames = ["Cakes", "Cookies", "Pies", "Squares", "Desserts", "Muffins", "Breads", "Biscuits", "Frosting", "Soups", 
+"Salads", "Pasta", "Casseroles", "Vegetables", "Meat", "Dressings", "Sauces", "Dips", "Drinks"]
+allTags = []
+for i in range(len(tagNames)):
+    tag = tkinter.Checkbutton(mid, text=tagNames[i], onvalue=1, offvalue=0)
+    tag.pack()
+    allTags.append(tag)
+
+
 
 #get the name of the recipe
 nameLabel = tkinter.Label(left, text="Recipe Name (no punctuation or special characters please):")
